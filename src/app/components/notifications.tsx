@@ -7,27 +7,12 @@ import { resetServiceWorker } from '@/utils/sw/service-worker'
 import styles from '../page.module.css'
 import { Notice } from './notice'
 
-const notificationsSupported = () =>
-  'Notification' in window &&
-  'serviceWorker' in navigator &&
-  'PushManager' in window
-
 export default function Notifications() {
   const [permission, setPermission] = useState(
     window?.Notification?.permission || 'default'
   )
 
-  if (!notificationsSupported()) {
-    return (
-      <Notice message="Please install this app on your home screen first!" />
-    )
-  }
-
   const requestPermission = async () => {
-    if (!notificationsSupported()) {
-      return
-    }
-
     const receivedPermission = await window?.Notification.requestPermission()
     setPermission(receivedPermission)
 
